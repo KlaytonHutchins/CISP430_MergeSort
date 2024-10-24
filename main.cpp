@@ -92,25 +92,28 @@ public:
                 }
                 cout << endl;
         }
+        void split(Node* head, Node*& a, Node*& b) {
+                //
+        }
+
+        Node* merge(Node* a, Node* b) {
+                //for (int i = 0; i < xxx; i++) {}
+                return head; //placeholder to compile
+        }
+
+        Node* mergeSort(Node* head) {
+                //for (int i = 0; i < xxx; i++) {}
+                return head; //placeholder to compile
+        }
 private:
         Node* head;
 };
 
-void mergeSort() {
-	//for (int i = 0; i < xxx; i++) {}
-}
-
-void merge() {
-	//for (int i = 0; i < xxx; i++) {}
-}
-
 int main() {
+        int arr[9] = {32, 4, 17, 3, 21, 2, 19, 29, 25};
         LinkedList myList;
-        myList.insertBack(4);
-        myList.insertBack(8);
-        myList.insertBack(12);
-        myList.insertBack(3);
-        myList.insertBack(19);
-        myList.insertBack(7);
+        for (int i = 0; i < 9; i++) {
+                myList.insertBack(arr[i]);
+        }
         myList.print();
 }
