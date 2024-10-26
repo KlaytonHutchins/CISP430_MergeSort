@@ -92,8 +92,22 @@ public:
                 }
                 cout << endl;
         }
-        void split(Node* head, Node*& a, Node*& b) {
-                //
+        void split(Node* head, Node *&a, Node *&b) {
+                Node* curr = head;
+                int origSize = 0;
+                while (curr) {
+                        origSize++;
+                        curr = curr->getNext();
+                }
+                curr = head; // reset curr back to the head of the original list
+                a = head; // a starts at the head of the original list
+                int aSize = ( origSize / 2) + (origSize % 2) - 1; // calculate the size of new list a
+                for (int i = 0; i < aSize; i++) { // loop to the end of list a
+                        curr = curr->getNext();
+                }
+                b = curr->getNext(); // b starts after the middle point of the original list
+                curr->setNext(nullptr); // set the end of list a with a null pointer
+                cout << "list size: " << origSize << endl;
         }
 
         Node* merge(Node* a, Node* b) {
@@ -101,19 +115,53 @@ public:
                 return head; //placeholder to compile
         }
 
-        Node* mergeSort(Node* head) {
+/*        Node* mergeSort(Node* head) {
+                Node* a = new Node(0);
+                Node* b = new Node(0);
+                Node* c = new Node(0);
                 //for (int i = 0; i < xxx; i++) {}
-                return head; //placeholder to compile
-        }
+                if(head == NULL)
+                        return NULL;
+                if (head->getNext() == NULL)
+                        return head;
+                a = mergeSort(a);
+                b = mergeSort(b);
+                c = merge(a, b);
+                return c;
+                //return head; //placeholder to compile
+        }*/
 private:
         Node* head;
 };
 
 int main() {
-        int arr[9] = {32, 4, 17, 3, 21, 2, 19, 29, 25};
+        int arr[10] = {32, 4, 17, 3, 21, 2, 19, 29, 25, 6};
         LinkedList myList;
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 10; i++) {
                 myList.insertBack(arr[i]);
         }
         myList.print();
+        Node* a = new Node(0);
+        Node* b = new Node(0);
+        myList.split(myList.getHead(), a, b);
+//        LinkedList lista;
+//        LinkedList listb;
+//        lista.setHead(a);
+//        listb.setHead(b);
+//        lista.print();
+//        listb.print();
+        cout << "a: " << endl;
+        Node* curr = a;
+        while (curr) {
+                cout << curr->getValue() << " "; 
+                curr = curr->getNext();
+        }
+        cout << endl;
+        cout << "b: " << endl;
+        curr = b;
+        while (curr) {
+                cout << curr->getValue() << " ";
+                curr = curr->getNext();
+        }
+        cout << endl;
 }
