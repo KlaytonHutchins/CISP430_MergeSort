@@ -111,25 +111,56 @@ public:
         }
 
         Node* merge(Node* a, Node* b) {
-                //for (int i = 0; i < xxx; i++) {}
-                return head; //placeholder to compile
+                Node* resultHead;
+                Node* currA = a;
+                Node* currB = b;
+                if (currA->getValue() < currB->getValue()) {
+                        resultHead = currA;
+                        currA = currA->getNext();
+                } else {
+                        resultHead = currB;
+                        currB = currB->getNext();
+                }
+                Node* currResult = resultHead;
+                while (currA && currB) {
+                        if (currA->getValue() < currB->getValue()) {
+                                currResult->setNext(currA);
+                                currA = currA->getNext();  
+                        } else {
+                                currResult->setNext(currB);
+                                currB = currB->getNext();
+                        }
+                        currResult = currResult->getNext();
+                }
+                while (currA) {
+                        currResult->setNext(currA);
+                        currA = currA->getNext();
+                        currResult = currResult->getNext();
+                }
+                while (currB) {
+                        currResult->setNext(currB);
+                        currB = currB->getNext();
+                        currResult = currResult->getNext();
+                }
+                return resultHead;
         }
 
-/*        Node* mergeSort(Node* head) {
-                Node* a = new Node(0);
-                Node* b = new Node(0);
-                Node* c = new Node(0);
+        Node* mergeSort(Node* head) {
+                Node* a;
+                Node* b;
+                Node* c;
                 //for (int i = 0; i < xxx; i++) {}
                 if(head == NULL)
                         return NULL;
                 if (head->getNext() == NULL)
                         return head;
+                split(head, a, b);
                 a = mergeSort(a);
                 b = mergeSort(b);
                 c = merge(a, b);
                 return c;
                 //return head; //placeholder to compile
-        }*/
+        }
 private:
         Node* head;
 };
@@ -141,27 +172,30 @@ int main() {
                 myList.insertBack(arr[i]);
         }
         myList.print();
-        Node* a = new Node(0);
-        Node* b = new Node(0);
-        myList.split(myList.getHead(), a, b);
+        Node* res = myList.mergeSort(myList.getHead());
+        myList.setHead(res);
+        myList.print();
+//        Node* a = new Node(0);
+//        Node* b = new Node(0);
+//        myList.split(myList.getHead(), a, b);
 //        LinkedList lista;
 //        LinkedList listb;
 //        lista.setHead(a);
 //        listb.setHead(b);
 //        lista.print();
 //        listb.print();
-        cout << "a: " << endl;
-        Node* curr = a;
-        while (curr) {
-                cout << curr->getValue() << " "; 
-                curr = curr->getNext();
-        }
-        cout << endl;
-        cout << "b: " << endl;
-        curr = b;
-        while (curr) {
-                cout << curr->getValue() << " ";
-                curr = curr->getNext();
-        }
-        cout << endl;
+//        cout << "a: " << endl;
+//        Node* curr = a;
+//        while (curr) {
+//                cout << curr->getValue() << " "; 
+//                curr = curr->getNext();
+//        }
+//        cout << endl;
+//        cout << "b: " << endl;
+//        curr = b;
+//        while (curr) {
+//                cout << curr->getValue() << " ";
+//                curr = curr->getNext();
+//        }
+//        cout << endl;
 }
