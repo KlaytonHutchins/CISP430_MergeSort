@@ -5,9 +5,18 @@ using namespace std;
 
 class Node {
 public:
-        //Construct new node with a name
+        //Construct new node without value
+        Node() {
+                value = 0;
+                next = nullptr;
+        }
+        //Construct new node with initial value
         Node(int initValue) {
                 value = initValue;
+                next = nullptr;
+        }
+        ~Node() {
+                value = 0;
                 next = nullptr;
         }
         //Getters and Setters
@@ -30,19 +39,21 @@ private:
 
 void split(Node* head, Node *&a, Node *&b) {
         Node* curr = head;
-        int origSize = 0;
-        while (curr) {
+        int origSize = 0;          // for counting the size of list starting at head variable
+        while (curr) {             // loop through list starting at head variable
                 origSize++;
                 curr = curr->getNext(); 
         }
-        curr = head; // reset curr back to the head of the original list
-        a = head; // a starts at the head of the original list
-        int aSize = ( origSize / 2) + (origSize % 2) - 1; // calculate the size of new list a
-        for (int i = 0; i < aSize; i++) { // loop to the end of list a
+        curr = head;               // reset curr back to the head of the original list
+        a = head;                  // a starts at the head of the original list
+                                   // calculate the size of new list a
+        int aSize = ( origSize / 2) + (origSize % 2) - 1;
+                                   // loop to the end of list a
+        for (int i = 0; i < aSize; i++) {
                 curr = curr->getNext();
         }
-        b = curr->getNext(); // b starts after the middle point of the original list
-        curr->setNext(nullptr); // set the end of list a with a null pointer
+        b = curr->getNext();       // b starts after the middle point of the original list
+        curr->setNext(nullptr);    // set the end of list a with a null pointer
 }
 
 Node* merge(Node* a, Node* b) {
@@ -55,7 +66,9 @@ Node* merge(Node* a, Node* b) {
         } else {
                 resultHead = currB;
                 currB = currB->getNext();
-        }
+        }                          // if-else statement above sets the head of the list that
+                                   // will be returned, and increments the pointer in the
+                                   // list it came from
         Node* currResult = resultHead;
         while (currA && currB) {
                 if (currA->getValue() < currB->getValue()) {
@@ -66,7 +79,8 @@ Node* merge(Node* a, Node* b) {
                         currB = currB->getNext();
                 }
                 currResult = currResult->getNext();
-        }
+        }                          // first while loop is for comparison while nodes still
+                                   // exist in both lists (a & b)
         while (currA) {
                 currResult->setNext(currA);
                 currA = currA->getNext();
@@ -76,7 +90,9 @@ Node* merge(Node* a, Node* b) {
                 currResult->setNext(currB);
                 currB = currB->getNext();
                 currResult = currResult->getNext(); 
-        }
+        }                          // second and third while loops clean up any existing
+                                   // nodes, only one (or neither) of these two will execute
+                                   // for any given call to the function
         return resultHead;
 }
 
@@ -84,7 +100,6 @@ Node* mergeSort(Node* head) {
         Node* a;
         Node* b;
         Node* c;
-        //for (int i = 0; i < xxx; i++) {}
         if(head == NULL)
                 return NULL;   
         if (head->getNext() == NULL)
@@ -106,13 +121,28 @@ void print(Node* head) {
 }
 
 int main() {
-        int arr[10] = {32, 4, 17, 3, 21, 2, 19, 29, 25, 6};
-        Node* head = new Node(arr[0]);
-        Node* curr = head;
-        for (int i = 1; i < 10; i++) {
-                curr->setNext(new Node(arr[i]));
-                curr = curr->getNext();
+        Node* head = nullptr;
+        Node* curr = nullptr;
+        int numIn;
+        cout << "Enter numbers: ";
+        while (cin >> numIn) {
+                Node* newNode = new Node;
+                newNode->setValue(numIn);
+                newNode->setNext(nullptr);
+                if (!head) {
+                        head = newNode;
+                } else {
+                        curr->setNext(newNode);
+                }
+                curr = newNode;
+                while (cin.peek() == ' ') {
+                        cin.get();
+                }
+                if (cin.peek() == '\n') {
+                        break;
+                }
         }
+
         print(head);
         Node* res = mergeSort(head);
         print(res);
